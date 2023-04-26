@@ -7,8 +7,9 @@ jobs:
     steps:
       - name: Create a project directory
         run: |
-          mkdir -p '/st2web_deb'
-          cd '/st2web_deb'
+          cd /
+          mkdir -p /st2web_deb
+          cd /st2web_deb
       
       - name: Checkout (git clone)
         uses: actions/checkout@v3.5.2
