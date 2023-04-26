@@ -1,0 +1,39 @@
+name: Build deb packages
+on:
+  workflow_dispatch:  # действие вручную
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create a project directory
+        run: |
+          mkdir -p '/st2web_deb'
+          cd '/st2web_deb'
+      
+      - name: Checkout (git clone)
+        uses: actions/checkout@v3.5.2
+      
+      - name: Install NVM (Node Version Manager)
+        run: |
+          nvm install 14.20.1
+          nvm alias default v14.20.1
+        
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install rpm jq devscripts debhelper
+          gem install package_cloud
+          nvm use 14.20.1
+          npm install --unsafe-perm -g lerna yarn
+
+      - name: Install package dependencies
+        run: |
+          nvm use 14.20.1
+          cd '/st2web_deb'
+          lerna bootstrap
+          
+      - name: Make deb packages
+        run: |
+          nvm use 14.20.1
+          cd '/st2web_deb'
+          make deb
