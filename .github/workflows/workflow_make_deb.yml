@@ -5,10 +5,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Check runner permissions
+        run: |
+          whoami
+          pwd
+          ls -la
+
       - name: Create a project directory
         run: |
           cd /
-          mkdir -p /st2web_deb
+          sudo mkdir -p /st2web_deb
           cd /st2web_deb
       
       - name: Checkout (git clone)
