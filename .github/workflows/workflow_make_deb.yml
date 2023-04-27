@@ -11,16 +11,11 @@ jobs:
           pwd
           ls -la
 
-      - name: Create a project directory
-        run: |
-          cd /
-          sudo mkdir -p /st2web_deb
-          cd /st2web_deb
-      
       - name: Checkout (git clone)
         uses: actions/checkout@v3.5.2
       
       - name: Install NVM (Node Version Manager)
+        working-directory: /actions-runner/_work/xrm-st2-web/xrm-st2-web
         run: |
           nvm install 14.20.1
           nvm alias default v14.20.1
@@ -34,13 +29,13 @@ jobs:
           npm install --unsafe-perm -g lerna yarn
 
       - name: Install package dependencies
+        working-directory: /actions-runner/_work/xrm-st2-web/xrm-st2-web
         run: |
           nvm use 14.20.1
-          cd '/st2web_deb'
           lerna bootstrap
           
       - name: Make deb packages
+        working-directory: /actions-runner/_work/xrm-st2-web/xrm-st2-web
         run: |
           nvm use 14.20.1
-          cd '/st2web_deb'
           make deb
